@@ -7,11 +7,9 @@ class CatsService extends HttpConnection {
     Response response = await dio.get('/facts');
 
     if (response.statusCode == 200) {
-      // Assuming the response is a JSON array
       List<dynamic> data = response.data;
       return data.map((item) => CatFact.fromJson(item)).toList();
     } else {
-      // Handle non-200 responses
       throw Exception('Failed to load cat facts');
     }
   }
