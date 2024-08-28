@@ -1,6 +1,7 @@
 import 'package:cat_facts_flutter/core/constant/constant.dart';
 import 'package:cat_facts_flutter/core/constant/text_styles.dart';
 import 'package:cat_facts_flutter/core/controllers/cats_controller.dart';
+import 'package:cat_facts_flutter/core/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -14,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _controller = Get.put(CatsController());
+  final _userController = Get.put(UserController());
 
   @override
   void initState() {
@@ -42,7 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                _userController.logout();
+              },
               icon: const Icon(
                 Icons.exit_to_app,
                 color: Colors.white,
@@ -53,6 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
         if (_controller.isLoading.value) {
           return const Center(
             child: CircularProgressIndicator(color: AppColors.app),
+          );
+        } else if (_controller.catdList.isEmpty) {
+          return Center(
+            child: Image.asset(
+              "assets/images/notfound.png",
+              height: Get.height * 0.3,
+            ),
           );
         } else {
           return Padding(
